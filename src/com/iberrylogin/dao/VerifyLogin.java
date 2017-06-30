@@ -9,9 +9,22 @@ import java.sql.*;
 
 public class VerifyLogin {
     public static boolean validate(String name, String pass) {
-        //This program validates the user id and password
     	boolean status = false;
-        
-        return status;
+    	//This program validates the user id and password
+    	try {
+    	Class.forName("com.mysql.jdbc.Driver");
+    	Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/anu","root","root");
+    	PreparedStatement pst=con.prepareStatement("select * from login");
+    	ResultSet rs=pst.executeQuery();
+    	while(rs.next()){
+    if(	rs.getString(1).equals(name)&&rs.getString(2).equals(pass)) {
+    	status=true;
+    	}
+    	}
+    	}
+    	catch(Exception e){
+    		e.printStackTrace();
+    	}
+    return status;
     }
 }
